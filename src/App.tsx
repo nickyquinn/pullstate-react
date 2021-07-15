@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.scss';
 import { UIStore } from "./store/Store";
-
+import React from "react";
 
 function App() {
   const name = UIStore.useState(s => s.name)

@@ -1,7 +1,8 @@
+import React from "react";
 import logo from './logo.svg';
 import styles from './App.module.scss';
 import { UIStore } from "./store/Store";
-import React from "react";
+import Name from './components/NameComponent/NameComponent';
 
 function App() {
   const name = UIStore.useState(s => s.name)
@@ -14,7 +15,7 @@ function App() {
         <p>
           Enter your name below:
         </p>
-        {name.length > 0 ? <div>Hi, {name}; this is using Pullstate!</div> : null}
+        {name.length > 0 ? <Name name={name} /> : null}
 
         <input type="text" value={name} onChange={(e) => UIStore.update(s => { s.name = e.target.value })} />
       </header>

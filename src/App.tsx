@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from './logo.svg';
 import styles from './App.module.scss';
 import { UIStore } from "./store/Store";
@@ -8,6 +8,16 @@ function App() {
   const name = UIStore.useState(s => s.name)
   const darkmodeClass = UIStore.useState(s => s.darkmode) ? '' : styles.light
   const darkmode = UIStore.useState(s => s.darkmode);
+
+  // Similar to componentDidMount and componentDidUpdate:  
+  useEffect(() => {    
+    document.title = name.length == 0 ? "Pullstate-react" : `Pullstate: ${name}`;
+  }, [name]); //With an array, effect only runs when the referenced value(s) changes
+
+  const nameChangeHandler = (e) => {
+    UIStore.update(s => { s.name = e.target.value })
+  };
+
   return (
     <div className={styles.App + ' ' + darkmodeClass}>
       <header className={styles['App-Header']}>
@@ -17,7 +27,7 @@ function App() {
         </p>
         {name.length > 0 ? <Name name={name} /> : null}
 
-        <input type="text" value={name} onChange={(e) => UIStore.update(s => { s.name = e.target.value })} />
+        <input type="text" value={name} onChange={(e) => nameChangeHandler(e)} />
       </header>
       <input type="checkbox" id="chkMode" name="chkMode" defaultChecked={darkmode} onChange={(e) => UIStore.update(s => { s.darkmode = !darkmode })} /><label htmlFor="chkMode">Dark mode</label>
     </div>
